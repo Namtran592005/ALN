@@ -1,6 +1,6 @@
 <div align="center">
 
-# AntiLostNavigator
+# ALN
 
 **Biết mình đang ở đâu. Biết mình cần đi hướng nào. Biết cách quay về.**
 
@@ -18,22 +18,22 @@
 
 ## Giới thiệu
 
-AntiLostNavigator là ứng dụng hỗ trợ định hướng ngoài trời dành cho trekking, dã ngoại và những hành trình có nguy cơ mất kết nối di động. Ứng dụng giúp người dùng lưu các mốc quan trọng, xác định hướng đi tới từng mốc bằng GPS và la bàn, đồng thời tiếp tục xem bản đồ ngay cả khi không còn Internet.
+ALN là ứng dụng hỗ trợ định hướng ngoài trời dành cho trekking, dã ngoại và những hành trình có nguy cơ mất kết nối di động. Ứng dụng giúp người dùng lưu các mốc quan trọng, xác định hướng đi tới từng mốc bằng GPS và la bàn, đồng thời tiếp tục xem bản đồ ngay cả khi không còn Internet.
 
-Ứng dụng **không** thay thế bản đồ địa hình, thiết bị cứu hộ hoặc kỹ năng sinh tồn. Mục tiêu của AntiLostNavigator là cung cấp một lớp hỗ trợ định hướng đơn giản, rõ ràng và hoạt động cục bộ trên điện thoại khi người dùng cần tìm đường trở lại.
+Ứng dụng **không** thay thế bản đồ địa hình, thiết bị cứu hộ hoặc kỹ năng sinh tồn. Mục tiêu của ALN là cung cấp một lớp hỗ trợ định hướng đơn giản, rõ ràng và hoạt động cục bộ trên điện thoại khi người dùng cần tìm đường trở lại.
 
 ```text
 Chuẩn bị hành trình → lấy GPS → lưu waypoint → di chuyển → bản đồ offline + la bàn
 → tính hướng/khoảng cách → mũi tên chỉ hướng → tới mốc / chọn mốc tiếp theo
 ```
 
-![Luồng hoạt động của AntiLostNavigator](docs/antilost-workflow.png)
+![Luồng hoạt động của ALN](docs/aln-workflow.png)
 
 ---
 
 ## Cách ứng dụng hỗ trợ
 
-| Vấn đề ngoài thực địa | Cách AntiLostNavigator hỗ trợ |
+| Vấn đề ngoài thực địa | Cách ALN hỗ trợ |
 |:--|:--|
 | Không có Internet | Dùng tile bản đồ offline đã bundle và cache cục bộ |
 | Không nhớ đường quay về | Lưu waypoint và breadcrumbs để chọn lại các điểm đã đi qua |
@@ -89,8 +89,8 @@ Luồng sử dụng điển hình: chờ GPS ổn định, lưu điểm xuất p
 ## Cách chạy
 
 ```bash
-git clone https://github.com/Namtran592005/AntiLostNavigator.git
-cd AntiLostNavigator
+git clone https://github.com/Namtran592005/ALN.git
+cd ALN
 
 npm install
 npx expo start
@@ -128,8 +128,8 @@ Các thư mục native sinh tự động và file build không được commit v
 │   ├── beep.mp3
 │   └── tiles/                    # Tile bản đồ offline đã bundle
 ├── docs/
-│   ├── antilost-workflow.mmd     # Nguồn biểu đồ hoạt động
-│   └── antilost-workflow.png     # Biểu đồ dùng trong README
+│   ├── aln-workflow.mmd     # Nguồn biểu đồ hoạt động
+│   └── aln-workflow.png     # Biểu đồ dùng trong README
 ├── package.json
 ├── LICENSE
 ├── README.md                     # Tiếng Anh (mặc định)
@@ -140,7 +140,7 @@ Các thư mục native sinh tự động và file build không được commit v
 
 ## Quyền và riêng tư
 
-AntiLostNavigator cần quyền vị trí vì GPS là dữ liệu cốt lõi của chức năng dẫn đường. Ứng dụng cũng yêu cầu quyền camera, media và bộ nhớ để chụp/chọn ảnh mốc và lưu ảnh.
+ALN cần quyền vị trí vì GPS là dữ liệu cốt lõi của chức năng dẫn đường. Ứng dụng cũng yêu cầu quyền camera, media và bộ nhớ để chụp/chọn ảnh mốc và lưu ảnh.
 
 GPS, waypoint, breadcrumb và dữ liệu chuyến đi được lưu cục bộ trên thiết bị để hỗ trợ hoạt động offline. Người dùng nên xem lại các quyền Android trước khi sử dụng.
 
@@ -149,7 +149,7 @@ Lưu ý độ chính xác:
 - Độ chính xác GPS phụ thuộc vào thiết bị, điều kiện bầu trời, môi trường và chất lượng tín hiệu.
 - La bàn có thể bị ảnh hưởng bởi kim loại, nam châm, loa hoặc thiết bị điện tử gần điện thoại.
 - Khi hướng hiển thị không ổn định, hãy di chuyển khỏi nguồn nhiễu và hiệu chỉnh cảm biến bằng chuyển động hình số tám.
-- Không nên chỉ dựa vào AntiLostNavigator trong các chuyến đi nguy hiểm. Người dùng nên mang theo bản đồ dự phòng, pin dự phòng, đèn, nước, thiết bị liên lạc và thông báo lịch trình cho người khác trước khi khởi hành.
+- Không nên chỉ dựa vào ALN trong các chuyến đi nguy hiểm. Người dùng nên mang theo bản đồ dự phòng, pin dự phòng, đèn, nước, thiết bị liên lạc và thông báo lịch trình cho người khác trước khi khởi hành.
 
 ---
 

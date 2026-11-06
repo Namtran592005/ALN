@@ -116,12 +116,12 @@ class KalmanFilter1D {
 }
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
-const db = SQLite.openDatabaseSync("antilost_v2.db");
+const db = SQLite.openDatabaseSync("aln_v2.db");
 
 // --------------------------- MULTILANGUAGE ---------------------------
 const translations = {
   vi: {
-    appName: "AntiLost Navigator",
+    appName: "ALN",
     tabNav: "Dẫn đường",
     tabList: "Danh sách mốc",
     tabTime: "Thời gian",
@@ -229,7 +229,7 @@ const translations = {
     ipAddress: "Địa chỉ IP",
   },
   en: {
-    appName: "AntiLost Navigator",
+    appName: "ALN",
     tabNav: "Navigate",
     tabList: "Markers",
     tabTime: "Time",
@@ -466,7 +466,7 @@ const translations = {
     mapAttribution: "来源：Esri, Maxar, Earthstar Geographics, GIS User Community",
   },
   en: {
-    appName: "AntiLost Navigator",
+    appName: "ALN",
     tabNav: "Navigate",
     tabList: "Markers",
     tabTime: "Time",
@@ -586,7 +586,7 @@ const translations = {
     mapAttribution: "Sources: Esri, Maxar, Earthstar Geographics, GIS User Community",
   },
   fr: {
-    appName: "AntiLost Navigator",
+    appName: "ALN",
     tabNav: "Naviguer",
     tabList: "Points",
     tabTime: "Heure",
@@ -705,7 +705,7 @@ const translations = {
     mapAttribution: "Sources : Esri, Maxar, Earthstar Geographics, GIS User Community",
   },
   es: {
-    appName: "AntiLost Navigator",
+    appName: "ALN",
     tabNav: "Navegar",
     tabList: "Marcadores",
     tabTime: "Hora",
@@ -1464,7 +1464,7 @@ const clearTileCache = async (layer) => {
     const dl = FileSystem.createDownloadResumable(
       url,
       uri,
-      { headers: { "User-Agent": "AntiLostNavigator/1.1.3 (+com.antilost.navigator)" } },
+      { headers: { "User-Agent": "ALN/1.1.3 (+com.aln.navigator)" } },
       undefined,
       30000,
     );
@@ -2071,7 +2071,7 @@ export default function App() {
       const geojson = { type: "FeatureCollection", features };
       const fileUri =
         FileSystem.documentDirectory +
-        `antilost_waypoints_${Date.now()}.geojson`;
+        `aln_waypoints_${Date.now()}.geojson`;
       await FileSystem.writeAsStringAsync(
         fileUri,
         JSON.stringify(geojson, null, 2),

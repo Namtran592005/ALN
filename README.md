@@ -1,6 +1,6 @@
 <div align="center">
 
-# AntiLostNavigator
+# ALN
 
 **Know where you are. Know which way to go. Know how to get back.**
 
@@ -18,7 +18,7 @@
 
 ## Overview
 
-AntiLostNavigator is an outdoor wayfinding app for trekking, camping, and journeys where mobile signal may be unavailable. It helps users save important waypoints, calculate bearing and distance with GPS and compass sensors, and continue viewing offline maps without an internet connection.
+ALN is an outdoor wayfinding app for trekking, camping, and journeys where mobile signal may be unavailable. It helps users save important waypoints, calculate bearing and distance with GPS and compass sensors, and continue viewing offline maps without an internet connection.
 
 The app is **not** a replacement for topographic maps, rescue equipment, or survival skills. Its goal is to provide a simple, clear, local-first navigation aid for returning to a chosen point.
 
@@ -27,13 +27,13 @@ Prepare trip → GPS fix → save waypoint → move → offline map + compass
 → bearing / distance → heading arrow → reached / next waypoint
 ```
 
-![AntiLostNavigator workflow](docs/antilost-workflow.png)
+![ALN workflow](docs/aln-workflow.png)
 
 ---
 
 ## How It Helps
 
-| Field Problem | How AntiLostNavigator Helps |
+| Field Problem | How ALN Helps |
 |:--|:--|
 | No internet | Uses bundled offline map tiles and local cache |
 | Cannot remember the route back | Saves waypoints and breadcrumbs for re-selection |
@@ -89,8 +89,8 @@ A typical flow is: wait for GPS to stabilize, save the start point/campsite/wate
 ## Getting Started
 
 ```bash
-git clone https://github.com/Namtran592005/AntiLostNavigator.git
-cd AntiLostNavigator
+git clone https://github.com/Namtran592005/ALN.git
+cd ALN
 
 npm install
 npx expo start
@@ -128,8 +128,8 @@ Generated native folders and build artifacts are intentionally git-ignored. APK/
 │   ├── beep.mp3
 │   └── tiles/                    # Bundled offline map tiles
 ├── docs/
-│   ├── antilost-workflow.mmd     # Workflow diagram source
-│   └── antilost-workflow.png     # Workflow diagram used in README
+│   ├── aln-workflow.mmd     # Workflow diagram source
+│   └── aln-workflow.png     # Workflow diagram used in README
 ├── package.json
 ├── LICENSE
 ├── README.md                     # English (default)
@@ -140,7 +140,7 @@ Generated native folders and build artifacts are intentionally git-ignored. APK/
 
 ## Permissions and Privacy
 
-AntiLostNavigator requires location access because GPS is central to navigation. The app also requests camera, media, and storage permissions for capturing and saving waypoint photos.
+ALN requires location access because GPS is central to navigation. The app also requests camera, media, and storage permissions for capturing and saving waypoint photos.
 
 GPS positions, waypoints, breadcrumbs, and trip data are stored locally on the device to support offline use. Review Android permissions before using the app.
 
