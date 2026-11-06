@@ -1,135 +1,186 @@
+<div align="center">
+
 # AntiLostNavigator
 
-> **Biết mình đang ở đâu. Biết mình cần đi hướng nào. Biết cách quay về.**
+**Know where you are. Know which way to go. Know how to get back.**
 
-AntiLostNavigator là ứng dụng hỗ trợ định hướng ngoài trời dành cho trekking, dã ngoại và những hành trình có nguy cơ mất kết nối di động. Ứng dụng giúp người dùng lưu lại các mốc quan trọng, xác định hướng đi tới từng mốc bằng GPS và la bàn, đồng thời tiếp tục xem bản đồ ngay cả khi không còn Internet.
+[![Expo](https://img.shields.io/badge/Expo-SDK%2054-000020?logo=expo&logoColor=white)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?logo=react&logoColor=black)](#)
+[![React](https://img.shields.io/badge/React-19.1-61DAFB?logo=react&logoColor=black)](#)
+[![Android](https://img.shields.io/badge/Android-first-3DDC84?logo=android&logoColor=black)](#)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Ứng dụng không thay thế bản đồ địa hình, thiết bị cứu hộ hoặc kỹ năng sinh tồn. Mục tiêu của AntiLostNavigator là cung cấp một lớp hỗ trợ định hướng đơn giản, rõ ràng và hoạt động cục bộ trên điện thoại khi người dùng cần tìm đường trở lại.
+**English** · [Tiếng Việt](README.vi.md)
 
-## AntiLostNavigator giúp người dùng như thế nào?
+</div>
 
-Khi đi vào khu vực xa khu dân cư, người dùng có thể mất sóng điện thoại, không mở được bản đồ trực tuyến hoặc khó nhớ chính xác đường đã đi. AntiLostNavigator giải quyết tình huống này bằng cách lưu các waypoint và breadcrumbs ngay trên thiết bị, sau đó dùng vị trí hiện tại để tính khoảng cách và phương hướng tới điểm cần đến.
+---
 
-![Luồng hoạt động của AntiLostNavigator](docs/antilost-workflow.png)
+## Overview
 
-### Một tình huống sử dụng điển hình
+AntiLostNavigator is an outdoor wayfinding app for trekking, camping, and journeys where mobile signal may be unavailable. It helps users save important waypoints, calculate bearing and distance with GPS and compass sensors, and continue viewing offline maps without an internet connection.
 
-Trước khi rời điểm xuất phát, người dùng mở ứng dụng và chờ GPS đạt độ chính xác phù hợp. Người dùng có thể lưu điểm xuất phát, nơi cắm trại, nguồn nước hoặc các điểm rẽ dưới dạng waypoint. Trong quá trình di chuyển, ứng dụng ghi nhận hành trình và giữ dữ liệu trong bộ nhớ cục bộ.
+The app is **not** a replacement for topographic maps, rescue equipment, or survival skills. Its goal is to provide a simple, clear, local-first navigation aid for returning to a chosen point.
 
-Nếu mạng bị mất, bản đồ đã được bundle trong ứng dụng vẫn có thể hiển thị. Khi người dùng chọn một waypoint, ứng dụng tính bearing và khoảng cách từ vị trí hiện tại tới waypoint. La bàn kết hợp cảm biến từ trường với cảm biến chuyển động để bù góc nghiêng, giúp mũi tên định hướng hữu ích hơn khi điện thoại không được giữ hoàn toàn phẳng.
+```text
+Prepare trip → GPS fix → save waypoint → move → offline map + compass
+→ bearing / distance → heading arrow → reached / next waypoint
+```
 
-| Vấn đề ngoài thực địa | Cách AntiLostNavigator hỗ trợ |
-|---|---|
-| Không có Internet | Dùng dữ liệu bản đồ offline đã được nhúng và cache cục bộ. |
-| Không nhớ đường quay về | Lưu waypoint và breadcrumbs để chọn lại các điểm đã đi qua. |
-| Không biết nên đi hướng nào | Tính bearing, khoảng cách và hiển thị hướng tới waypoint. |
-| GPS dao động | Theo dõi liên tục và chỉ lưu mốc khi độ chính xác đạt mức phù hợp. |
-| Cầm điện thoại bị nghiêng | Kết hợp Magnetometer và DeviceMotion để bù nghiêng la bàn. |
-| Muốn kiểm tra hành trình | Lưu dữ liệu cục bộ bằng SQLite để xem lại trong ứng dụng. |
+![AntiLostNavigator workflow](docs/antilost-workflow.png)
 
-## Các chức năng chính
+---
 
-### Dẫn đường tới waypoint
+## How It Helps
 
-Màn hình Dẫn đường hiển thị trạng thái GPS, độ chính xác vị trí, hướng hiện tại, hướng tới waypoint, khoảng cách và cảnh báo lệch hướng. Người dùng có thể chọn từng mốc trong danh sách và hủy dẫn đường bất kỳ lúc nào.
+| Field Problem | How AntiLostNavigator Helps |
+|:--|:--|
+| No internet | Uses bundled offline map tiles and local cache |
+| Cannot remember the route back | Saves waypoints and breadcrumbs for re-selection |
+| Unsure which direction to walk | Calculates bearing, distance, and heading to a waypoint |
+| GPS is noisy | Tracks continuously and only saves a marker when accuracy is good enough |
+| Phone is tilted | Combines Magnetometer and DeviceMotion to compensate compass tilt |
+| Needs a trip review | Stores GPS data locally with SQLite for in-app review |
 
-### Lưu mốc chính xác hơn
+A typical flow is: wait for GPS to stabilize, save the start point/campsite/water source/turning point as a waypoint, then navigate using the bundled map and compass when connectivity disappears.
 
-Thay vì lấy một số ít mẫu GPS rồi lưu ngay, ứng dụng duy trì watcher trong thời gian ngắn để chờ vị trí ổn định. Khi đạt độ chính xác tốt, người dùng có thể lưu tên, ghi chú và ảnh của mốc. Các waypoint được lưu cục bộ để không phụ thuộc vào máy chủ bên ngoài.
+---
 
-### Bản đồ offline
+## Features
 
-Ứng dụng sử dụng bộ tile được bundle sẵn cho khu vực Việt Nam ở các mức zoom chính, hỗ trợ lớp bản đồ vệ tinh và đường phố. Bộ tile được Metro bundler quản lý thông qua `assets/tiles/bundleIndex.js`; các mức zoom cao hơn có thể sử dụng cache cục bộ khi dữ liệu đã tồn tại trên thiết bị.
+- **Waypoint navigation** — GPS status, accuracy, current heading, target bearing, distance, and off-course warnings
+- **Accurate waypoint saving** — waits briefly for a stable position before allowing the user to save a named marker with notes and photos
+- **Offline maps** — bundled Vietnam tile set for major zoom levels, with satellite and street layers; higher zoom levels can use local cache when available
+- **Trip time and sun data** — UTC time, local time, and sunrise/sunset information for planning daylight
+- **Local storage** — waypoints, breadcrumbs, and GPS records are stored on-device with SQLite
+- **Multilingual UI** — includes English, Vietnamese, and additional localized strings in the app
+- **Android-first Expo workflow** — designed for native development builds and release APKs
 
-### Theo dõi thời gian và dữ liệu chuyến đi
+---
 
-Màn hình Thời gian cung cấp thông tin giờ UTC, giờ địa phương và dữ liệu mặt trời để hỗ trợ người dùng ước lượng điều kiện ánh sáng trong hành trình. Breadcrumbs, waypoint và thông tin GPS được quản lý cục bộ bằng SQLite.
+## Tech Stack
 
-## Công nghệ sử dụng
-
-| Thành phần | Công nghệ |
-|---|---|
-| Framework | [Expo SDK 54](https://docs.expo.dev/) |
+| Layer | Used |
+|:--|:--|
+| Framework | Expo SDK 54 |
 | Runtime | React Native 0.81.5, React 19.1 |
-| Vị trí | `expo-location` |
-| Cảm biến | `expo-sensors` — Magnetometer và DeviceMotion |
-| Cơ sở dữ liệu cục bộ | `expo-sqlite` |
-| Lưu tile và file | `expo-file-system` |
-| Đồ họa | `react-native-svg` |
-| Bộ dựng bản đồ | Custom SVG-based offline map renderer |
-| Nền tảng mục tiêu | Android-first, Expo native workflow |
+| Location | `expo-location` |
+| Sensors | `expo-sensors` — Magnetometer and DeviceMotion |
+| Local database | `expo-sqlite` |
+| Files and tiles | `expo-file-system` |
+| Graphics | `react-native-svg` |
+| Map rendering | Custom SVG-based offline map renderer |
+| Target platform | Android-first, Expo native workflow |
 
-## Cài đặt và chạy thử
+---
 
-Yêu cầu Node.js 20 trở lên, JDK 17 và Android SDK nếu cần build native Android.
+## Requirements
+
+- **Node.js 20+**
+- **JDK 17** and **Android SDK** for native Android builds
+- An Android device or emulator
+- Optional: **Expo / EAS** account for cloud builds and releases
+- For accurate GPS, compass, and offline-map testing, use a real Android device
+
+> Expo Go is suitable for quick UI/logic checks, but native sensor, location, and offline-map behavior should be tested with a development build or APK on a real device.
+
+---
+
+## Getting Started
 
 ```bash
+git clone https://github.com/Namtran592005/AntiLostNavigator.git
+cd AntiLostNavigator
+
 npm install
 npx expo start
 ```
 
-Để chạy native Android trên thiết bị hoặc emulator:
+Run on a native Android device or emulator:
 
 ```bash
 npx expo run:android
 ```
 
-Để kiểm thử đúng GPS, cảm biến và bản đồ offline, nên dùng development build hoặc APK trên thiết bị Android thật. Expo Go phù hợp cho việc kiểm tra nhanh các phần giao diện và logic không phụ thuộc đầy đủ vào native build.
-
-## Build bản release
+Build a release variant locally:
 
 ```bash
 npx expo prebuild --platform android
 npx expo run:android --variant release
 ```
 
-Các thư mục native sinh tự động và file build không được commit vào repository. APK/AAB nên được lưu ở kênh phát hành riêng như GitHub Releases.
+Generated native folders and build artifacts are intentionally git-ignored. APK/AAB files should be published through a separate release channel such as GitHub Releases.
 
-## Cấu trúc project
+---
+
+## Project Structure
 
 ```text
-AntiLostNavigator/
-├── App.js                         # Logic, màn hình và style chính
-├── app.json                       # Metadata Expo và native permissions
-├── index.js                       # Entry point
-├── metro.config.js                # Cấu hình asset tile cho Metro
+.
+├── App.js                        # Main logic, screens, and styles
+├── app.json                      # Expo metadata and native permissions
+├── index.js                      # Entry point
+├── metro.config.js               # Metro asset configuration for tile images
+├── eas.json                      # EAS build profiles
 ├── assets/
-│   └── tiles/                     # Tile bản đồ offline đã bundle
+│   ├── icon.png
+│   ├── splash-icon.png
+│   ├── beep.mp3
+│   └── tiles/                    # Bundled offline map tiles
 ├── docs/
-│   ├── antilost-workflow.mmd      # Source của biểu đồ hoạt động
-│   └── antilost-workflow.png      # Biểu đồ dùng trong README
+│   ├── antilost-workflow.mmd     # Workflow diagram source
+│   └── antilost-workflow.png     # Workflow diagram used in README
 ├── package.json
-└── README.md
+├── LICENSE
+├── README.md                     # English (default)
+└── README.vi.md                  # Vietnamese
 ```
 
-## Độ chính xác và an toàn khi sử dụng
+---
 
-Độ chính xác GPS phụ thuộc vào thiết bị, điều kiện bầu trời, môi trường và chất lượng tín hiệu. La bàn có thể bị ảnh hưởng bởi kim loại, nam châm, loa hoặc thiết bị điện tử gần điện thoại. Khi hướng hiển thị không ổn định, hãy di chuyển khỏi nguồn nhiễu và hiệu chỉnh cảm biến bằng chuyển động hình số tám.
+## Permissions and Privacy
 
-Không nên chỉ dựa vào AntiLostNavigator trong các chuyến đi nguy hiểm. Người dùng nên mang theo bản đồ dự phòng, pin dự phòng, đèn, nước, thiết bị liên lạc và thông báo lịch trình cho người khác trước khi khởi hành.
+AntiLostNavigator requires location access because GPS is central to navigation. The app also requests camera, media, and storage permissions for capturing and saving waypoint photos.
 
-## Quyền riêng tư
+GPS positions, waypoints, breadcrumbs, and trip data are stored locally on the device to support offline use. Review Android permissions before using the app.
 
-GPS, waypoint, breadcrumbs và dữ liệu chuyến đi được lưu cục bộ trên thiết bị để hỗ trợ hoạt động offline. Ứng dụng cần quyền vị trí vì đây là dữ liệu cốt lõi của chức năng dẫn đường. Người dùng nên xem lại các quyền Android trước khi sử dụng.
+Accuracy caveats:
 
-## Phiên bản stable
+- GPS accuracy depends on the device, sky visibility, environment, and signal quality.
+- Compasses can be affected by metal, magnets, speakers, and nearby electronics.
+- If heading becomes unstable, move away from interference and recalibrate the sensor with a figure-eight motion.
+- Do not rely on this app alone for dangerous trips. Carry a backup map, spare battery, light, water, communication device, and share your itinerary before starting.
 
-| Trường | Giá trị |
-|---|---|
+---
+
+## Stable Release
+
+| Field | Value |
+|:--|:--|
 | App version | `1.0.0` |
 | Android version code | `1` |
 | iOS build number | `1` |
 | Expo SDK | `54` |
 
-## Đóng góp
+---
 
-Issue và pull request được hoan nghênh. Khi báo lỗi, hãy mô tả thiết bị, phiên bản Android, trạng thái kết nối mạng, độ chính xác GPS và liệu lỗi có xảy ra trong chế độ bản đồ offline hay không.
+## Contributing
+
+Issues and pull requests are welcome. When reporting a bug, include the device model, Android version, network status, GPS accuracy, and whether the issue occurs in offline-map mode.
+
+---
 
 ## License
 
-Project chưa chọn giấy phép mã nguồn mở. Cho đến khi thêm file license, mọi quyền thuộc về chủ sở hữu project.
+The source code is licensed under the [MIT License](LICENSE).
+
+Copyright © 2026 [@Namtran592005](https://github.com/Namtran592005).
+
+The MIT license applies to the source code only. Bundled map tiles, satellite imagery, street-tile data, icons, photos, and other third-party assets remain subject to their own upstream terms. If you redistribute the app with map tiles, review and preserve the relevant source and attribution requirements.
+
+---
 
 ## References
 
-- [1] [Expo Documentation](https://docs.expo.dev/) — Tài liệu chính thức của Expo.
-- [2] [React Native Documentation](https://reactnative.dev/docs/getting-started) — Tài liệu chính thức của React Native.
+- [Expo Documentation](https://docs.expo.dev/) — official Expo documentation
+- [React Native Documentation](https://reactnative.dev/docs/getting-started) — official React Native documentation
